@@ -32,7 +32,7 @@ How each teammate should implement new pages so code and UI stay consistent.
 
 For every page:
 
-1. Replace placeholder in `src/pages/index.tsx` (or split to dedicated file if page grows).
+1. Implement or replace dedicated page file in `src/pages/...` and export it from `src/pages/index.ts`.
 2. Keep a clear structure:
    - `header` section (title + subtitle)
    - `content` section(s)

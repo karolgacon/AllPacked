@@ -72,6 +72,8 @@ Detailed sprint workflow and ownership matrix are in `docs/TEAM_PLAN.md`.
 
 - Visual and component standard: `docs/DESIGN_SYSTEM.md`
 - Page implementation workflow: `docs/PAGE_DEVELOPMENT_GUIDE.md`
+- New teammate onboarding: `docs/TEAM_ONBOARDING.md`
+- Screen Definition of Done checklist: `docs/SCREEN_DOD_CHECKLIST.md`
 - Analytics and Hotjar setup: `docs/ANALYTICS_SETUP.md`
 - Requirement-to-implementation matrix: `docs/REQUIREMENTS_COVERAGE.md`
 
