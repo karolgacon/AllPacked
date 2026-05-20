@@ -9,12 +9,20 @@ import {
   AuthFooter,
   AuthHeading,
 } from '@/features/auth/components/AuthLayoutParts'
-import { AppleIcon, EyeIcon, EyeOffIcon, GoogleIcon, LockIcon, MailIcon } from '@/shared/components/icons'
+import {
+  EyeIcon,
+  EyeOffIcon,
+  GoogleIcon,
+  LockIcon,
+  MailIcon,
+  UserIcon,
+} from '@/shared/components/icons'
 import { Button, InputField } from '@/shared/components/ui'
 
 export function RegisterPage() {
-  const { signUp, signInWithGoogle, signInWithApple } = useAuth()
+  const { signUp, signInWithGoogle } = useAuth()
   const navigate = useNavigate()
+  const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -27,6 +35,11 @@ export function RegisterPage() {
     event.preventDefault()
     setError('')
 
+    if (!firstName.trim()) {
+      setError('Please enter your first name.')
+      return
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.')
       return
@@ -35,7 +48,7 @@ export function RegisterPage() {
     setPending(true)
 
     try {
-      await signUp(email, password)
+      await signUp(email, password, firstName.trim())
       navigate('/dashboard')
     } catch (err) {
       if (err instanceof FirebaseError) {
@@ -61,19 +74,6 @@ export function RegisterPage() {
     }
   }
 
-  const handleAppleSignIn = async () => {
-    setError('')
-    setPending(true)
-    try {
-      await signInWithApple()
-      navigate('/dashboard')
-    } catch (err) {
-      if (err instanceof FirebaseError) setError(err.message)
-    } finally {
-      setPending(false)
-    }
-  }
-
   return (
     <div className="space-y-7">
       <AuthBrand />
@@ -83,6 +83,20 @@ export function RegisterPage() {
       />
 
       <form className="space-y-5" onSubmit={handleSubmit}>
+        <div className="space-y-1.5">
+          <AuthFieldLabel htmlFor="register-first-name">First name</AuthFieldLabel>
+          <InputField
+            id="register-first-name"
+            type="text"
+            required
+            autoComplete="given-name"
+            placeholder="Alex"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            leftIcon={<UserIcon />}
+          />
+        </div>
+
         <div className="space-y-1.5">
           <AuthFieldLabel htmlFor="register-email">Email address</AuthFieldLabel>
           <InputField
@@ -142,30 +156,20 @@ export function RegisterPage() {
 
       <AuthDivider />
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          type="button"
-          variant="secondary"
-          fullWidth
-          disabled={pending}
-          onClick={handleGoogleSignIn}
-          className="flex items-center justify-center gap-2 py-2.5"
-        >
-          <GoogleIcon />
-          Google
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          fullWidth
-          disabled={pending}
-          onClick={handleAppleSignIn}
-          className="flex items-center justify-center gap-2 py-2.5"
-        >
-          <AppleIcon />
-          Apple
-        </Button>
-      </div>
+      <p className="text-center text-xs text-brand-text">
+        Google will use the name from your account when available.
+      </p>
+
+      <Button
+        type="button"
+        variant="secondary"
+        disabled={pending}
+        onClick={handleGoogleSignIn}
+        className="flex items-center justify-center gap-2 py-2.5"
+      >
+        <GoogleIcon />
+        Google
+      </Button>
 
       <AuthFooter
         text="Already have an account?"

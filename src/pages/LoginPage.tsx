@@ -9,11 +9,11 @@ import {
   AuthFooter,
   AuthHeading,
 } from '@/features/auth/components/AuthLayoutParts'
-import { AppleIcon, EyeIcon, EyeOffIcon, GoogleIcon, LockIcon, MailIcon } from '@/shared/components/icons'
+import { EyeIcon, EyeOffIcon, GoogleIcon, LockIcon, MailIcon } from '@/shared/components/icons'
 import { Button, InputField } from '@/shared/components/ui'
 
 export function LoginPage() {
-  const { signIn, signInWithGoogle, signInWithApple } = useAuth()
+  const { signIn, signInWithGoogle } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -52,24 +52,6 @@ export function LoginPage() {
         setError(err.message)
       } else {
         setError('Unexpected error while signing in with Google.')
-      }
-    } finally {
-      setPending(false)
-    }
-  }
-
-  const handleAppleSignIn = async () => {
-    setError('')
-    setPending(true)
-
-    try {
-      await signInWithApple()
-      navigate('/dashboard')
-    } catch (err) {
-      if (err instanceof FirebaseError) {
-        setError(err.message)
-      } else {
-        setError('Unexpected error while signing in with Apple.')
       }
     } finally {
       setPending(false)
@@ -134,30 +116,16 @@ export function LoginPage() {
 
       <AuthDivider />
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          type="button"
-          variant="secondary"
-          fullWidth
-          disabled={pending}
-          onClick={handleGoogleSignIn}
-          className="flex items-center justify-center gap-2 py-2.5"
-        >
-          <GoogleIcon />
-          Google
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          fullWidth
-          disabled={pending}
-          onClick={handleAppleSignIn}
-          className="flex items-center justify-center gap-2 py-2.5"
-        >
-          <AppleIcon />
-          Apple
-        </Button>
-      </div>
+      <Button
+        type="button"
+        variant="secondary"
+        disabled={pending}
+        onClick={handleGoogleSignIn}
+        className="flex items-center justify-center gap-2 py-2.5"
+      >
+        <GoogleIcon />
+        Google
+      </Button>
 
       <AuthFooter
         text="Don't have an account?"

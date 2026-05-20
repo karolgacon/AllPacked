@@ -21,6 +21,20 @@ export function MailIcon({ className = 'h-4 w-4' }: IconProps) {
   )
 }
 
+export function UserIcon({ className = 'h-4 w-4' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M5 19c0-3.314 3.134-6 7-6s7 2.686 7 6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 export function LockIcon({ className = 'h-4 w-4' }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -92,14 +106,6 @@ export function GoogleIcon({ className = 'h-4 w-4' }: IconProps) {
   )
 }
 
-export function AppleIcon({ className = 'h-4 w-4' }: IconProps) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M16.365 1.43c0 1.14-.42 2.09-1.24 2.84-.9.83-1.96 1.24-3.1 1.17-.14-1.09.38-2.22 1.15-2.97.88-.86 2.33-1.41 3.19-1.04ZM20.8 17.13c-.57 1.31-.85 1.9-1.58 3.06-1.02 1.58-2.46 3.55-4.24 3.57-1.59.02-2-.98-4.16-.96-2.16.02-2.62 1-4.21.98-1.78-.03-3.14-1.72-4.16-3.3C1.01 18.28.03 14.66 2.2 11.9c1.08-1.36 2.78-2.16 4.38-2.16 2.05-.03 3.34 1.01 4.16 1.01.8 0 2.3-1.25 4.38-1.07 1.49.06 2.78.72 3.73 1.84-3.28 1.98-2.75 7.14.95 8.61Z" />
-    </svg>
-  )
-}
-
 export function SuitcaseWatermark({ className }: IconProps) {
   return (
     <svg
@@ -130,6 +136,80 @@ export function SuitcaseWatermark({ className }: IconProps) {
       <line x1="50" y1="110" x2="150" y2="110" stroke="white" strokeOpacity="0.2" strokeWidth="2" />
       <circle cx="55" cy="185" r="8" fill="white" fillOpacity="0.2" />
       <circle cx="145" cy="185" r="8" fill="white" fillOpacity="0.2" />
+    </svg>
+  )
+}
+
+export function DashboardIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+export function NewTripIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function PackingListsIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M9 6h12M9 12h12M9 18h12"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M5 6h.01M5 12h.01M5 18h.01"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+export function StatsIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 19V5M4 19h16"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <rect x="7" y="11" width="3" height="8" rx="1" fill="currentColor" fillOpacity="0.85" />
+      <rect x="12" y="8" width="3" height="11" rx="1" fill="currentColor" fillOpacity="0.85" />
+      <rect x="17" y="5" width="3" height="14" rx="1" fill="currentColor" fillOpacity="0.85" />
+    </svg>
+  )
+}
+
+export function BellIcon({ className = 'h-5 w-5' }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2h16l-2-2Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10 20a2 2 0 0 0 4 0"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   )
 }

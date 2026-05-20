@@ -11,6 +11,7 @@
   --color-brand-danger: #e53935;
   --color-brand-text: #455a64;
   --color-brand-border: #d8e3ef;
+  --color-app-canvas: #f0f2f5;
 }
 
 :root {
@@ -38,3 +39,5 @@ body {
       #dce8f4 100%
     );
 }
+
+/* Logged-in app: flat neutral canvas — no gradient (Figma) */

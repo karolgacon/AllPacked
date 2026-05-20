@@ -41,11 +41,12 @@ npm run dev
    - `VITE_FIREBASE_APP_ID`
 6. Restart dev server: `npm run dev`.
 7. Test flow:
-   - register at `/register`
+   - register at `/register` (with first name)
    - login at `/login`
-   - login with Google at `/login` via **Continue with Google**
-   - verify redirect to `/dashboard`
-   - logout from sidebar
+   - login with Google (name from Google account when available)
+   - verify redirect to `/dashboard` — greeting uses first name
+   - profile at `/profile` shows name and email
+   - logout from profile page
 
 If `.env` is not complete, auth actions will show a clear Firebase configuration error.
 
