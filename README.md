@@ -66,7 +66,8 @@ If `.env` is not complete, auth actions will show a clear Firebase configuration
 
 ## 6) Team Working Model (3 members)
 
-Detailed sprint workflow and ownership matrix are in `docs/TEAM_PLAN.md`.
+- Balanced task split (3 people): `docs/TASK_ASSIGNMENT.md`
+- Sprint workflow and git flow: `docs/TEAM_PLAN.md`
 
 ## 7) Shared Standards
 

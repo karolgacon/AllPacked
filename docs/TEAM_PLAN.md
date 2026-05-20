@@ -2,10 +2,12 @@
 
 ## Team Roles
 
-- **Person A - Auth + Foundation**
+- **Person A - Auth, Dashboard + Foundation**
   - Build final `/login` and `/register`
-  - Integrate Firebase Authentication (email/password + logout)
-  - Deliver protected routes polish and auth error states
+  - Build `/dashboard` (home after login)
+  - Integrate Firebase Authentication (email/password + Google + logout)
+  - Shared UI components + layout polish
+  - Build `/profile`
 
 - **Person B - Trip Wizard**
   - Build `/new-trip/destination`
@@ -15,12 +17,11 @@
   - Build `/new-trip/overview`
   - Keep one shared form state across wizard steps
 
-- **Person C - Dashboard + Data Views**
-  - Build `/dashboard`
+- **Person C - Data Views + Deploy**
   - Build `/packing-lists`
   - Build `/stats`
-  - Build `/profile`
   - Build 404 fallback
+  - Lead deploy and README evidence (GA + Hotjar screenshots)
 
 ## Workflow Rules
 
