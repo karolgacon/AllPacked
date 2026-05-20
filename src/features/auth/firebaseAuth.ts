@@ -3,7 +3,9 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   GoogleAuthProvider,
+  OAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
@@ -58,6 +60,17 @@ export const firebaseAuthService = {
     const provider = new GoogleAuthProvider()
     provider.setCustomParameters({ prompt: 'select_account' })
     return signInWithPopup(auth, provider)
+  },
+  async signInWithApple() {
+    const auth = requireAuth()
+    const provider = new OAuthProvider('apple.com')
+    provider.addScope('email')
+    provider.addScope('name')
+    return signInWithPopup(auth, provider)
+  },
+  async sendPasswordResetEmail(email: string) {
+    const auth = requireAuth()
+    return sendPasswordResetEmail(auth, email)
   },
   async signOut() {
     const auth = requireAuth()

@@ -5,6 +5,7 @@ import { PageViewTracker } from '@/shared/analytics/PageViewTracker'
 import { PrivateRoute, PublicOnlyRoute } from '@/shared/routing/RouteGuards'
 import {
   DashboardPage,
+  ForgotPasswordPage,
   LoginPage,
   NewTripActivitiesPage,
   NewTripDatesPage,
@@ -39,6 +40,7 @@ export const appRouter = createBrowserRouter([
             children: [
               { path: '/login', element: <LoginPage /> },
               { path: '/register', element: <RegisterPage /> },
+              { path: '/forgot-password', element: <ForgotPasswordPage /> },
             ],
           },
         ],
