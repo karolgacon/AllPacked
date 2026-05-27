@@ -2,13 +2,22 @@ import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FirebaseError } from 'firebase/app'
 import { useAuth } from '@/features/auth/useAuth'
-import { Button, Input } from '@/shared/components/ui'
+import {
+  AuthBrand,
+  AuthDivider,
+  AuthFieldLabel,
+  AuthFooter,
+  AuthHeading,
+} from '@/features/auth/components/AuthLayoutParts'
+import { EyeIcon, EyeOffIcon, GoogleIcon, LockIcon, MailIcon } from '@/shared/components/icons'
+import { Button, InputField } from '@/shared/components/ui'
 
 export function LoginPage() {
   const { signIn, signInWithGoogle } = useAuth()
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -50,39 +59,79 @@ export function LoginPage() {
   }
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <h1 className="text-2xl font-bold text-blue-900">Welcome back</h1>
-      <p className="text-sm text-slate-600">Sign in to start packing smarter.</p>
-      <Input
-        type="email"
-        required
-        placeholder="Email address"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
+    <div className="space-y-7">
+      <AuthBrand />
+      <AuthHeading
+        title="Welcome back"
+        subtitle="Your organized journey begins with a single step. Let's get you ready."
       />
-      <Input
-        type="password"
-        required
-        minLength={6}
-        placeholder="Password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      <Button type="submit" disabled={pending}>
-        {pending ? 'Signing in...' : 'Sign In'}
-      </Button>
+
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        <div className="space-y-1.5">
+          <AuthFieldLabel htmlFor="login-email">Email address</AuthFieldLabel>
+          <InputField
+            id="login-email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="alex@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            leftIcon={<MailIcon />}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <div className="flex items-baseline justify-between gap-2">
+            <AuthFieldLabel htmlFor="login-password">Password</AuthFieldLabel>
+            <Link
+              to="/forgot-password"
+              className="text-[11px] font-semibold uppercase tracking-wider text-brand-primary hover:text-brand-primary-hover"
+            >
+              Forgot?
+            </Link>
+          </div>
+          <InputField
+            id="login-password"
+            type={showPassword ? 'text' : 'password'}
+            required
+            minLength={6}
+            autoComplete="current-password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            leftIcon={<LockIcon />}
+            rightIcon={showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            onRightIconClick={() => setShowPassword((v) => !v)}
+            rightIconLabel={showPassword ? 'Hide password' : 'Show password'}
+          />
+        </div>
+
+        {error ? <p className="text-sm text-brand-danger">{error}</p> : null}
+
+        <Button type="submit" disabled={pending} className="py-2.5">
+          {pending ? 'Signing in…' : 'Sign In'}
+        </Button>
+      </form>
+
+      <AuthDivider />
+
       <Button
         type="button"
         variant="secondary"
         disabled={pending}
         onClick={handleGoogleSignIn}
+        className="flex items-center justify-center gap-2 py-2.5"
       >
-        Continue with Google
+        <GoogleIcon />
+        Google
       </Button>
-      <p className="text-sm text-slate-500">
-        New here? <Link to="/register">Create account</Link>
-      </p>
-    </form>
+
+      <AuthFooter
+        text="Don't have an account?"
+        linkText="Join AllPacked"
+        linkTo="/register"
+      />
+    </div>
   )
 }

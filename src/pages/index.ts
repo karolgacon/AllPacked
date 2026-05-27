@@ -1,5 +1,6 @@
 export { LoginPage } from './LoginPage'
 export { RegisterPage } from './RegisterPage'
+export { ForgotPasswordPage } from './ForgotPasswordPage'
 export { DashboardPage } from './DashboardPage'
 export { PackingListsPage } from './PackingListsPage'
 export { StatsPage } from './StatsPage'

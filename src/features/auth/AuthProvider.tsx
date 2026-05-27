@@ -30,8 +30,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       async signInWithGoogle() {
         await firebaseAuthService.signInWithGoogle()
       },
-      async signUp(email, password) {
-        await firebaseAuthService.signUp(email, password)
+      async signUp(email, password, displayName) {
+        await firebaseAuthService.signUp(email, password, displayName)
+      },
+      async sendPasswordResetEmail(email) {
+        await firebaseAuthService.sendPasswordResetEmail(email)
       },
       async signOutUser() {
         await firebaseAuthService.signOut()
