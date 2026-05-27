@@ -1,7 +1,11 @@
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/shared/components/ui'
 import { Link } from 'react-router-dom'
 import { Card, SectionHeader } from '@/shared/components/ui'
 
 export function NotFoundPage() {
+  const navigate = useNavigate()
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-app-canvas p-6">
       <Card className="w-full max-w-md space-y-4">
