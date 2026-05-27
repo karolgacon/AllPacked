@@ -1,4 +1,4 @@
-import { Card } from '@/shared/components/ui'
+import { Card, SectionHeader } from '@/shared/components/ui'
 
 type PlaceholderPageProps = {
   title: string
@@ -7,12 +7,14 @@ type PlaceholderPageProps = {
 
 export function PlaceholderPage({ title, description }: PlaceholderPageProps) {
   return (
-    <Card className="space-y-3">
-      <h1 className="text-2xl font-bold text-blue-900">{title}</h1>
-      <p className="text-slate-600">{description}</p>
-      <p className="text-xs text-slate-400">
-        Team note: replace this placeholder with final Figma implementation.
-      </p>
-    </Card>
+    <div className="space-y-6">
+      <SectionHeader title={title} subtitle={description} />
+      <Card className="py-14 text-center">
+        <h3 className="text-lg font-semibold text-brand-navy">Coming soon</h3>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-brand-text">
+          Replace this placeholder with the final Figma implementation.
+        </p>
+      </Card>
+    </div>
   )
 }

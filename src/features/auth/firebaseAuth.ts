@@ -4,11 +4,16 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
   type User,
 } from 'firebase/auth'
+import {
+  applyOAuthDisplayName,
+  setUserDisplayName,
+} from '@/features/auth/userDisplayName'
 import { env, isFirebaseConfigured } from '@/shared/config/env'
 
 const firebaseAuth = isFirebaseConfigured
@@ -49,15 +54,23 @@ export const firebaseAuthService = {
     const auth = requireAuth()
     return signInWithEmailAndPassword(auth, email, password)
   },
-  async signUp(email: string, password: string) {
+  async signUp(email: string, password: string, displayName: string) {
     const auth = requireAuth()
-    return createUserWithEmailAndPassword(auth, email, password)
+    const credential = await createUserWithEmailAndPassword(auth, email, password)
+    await setUserDisplayName(credential.user, displayName)
+    return credential
   },
   async signInWithGoogle() {
     const auth = requireAuth()
     const provider = new GoogleAuthProvider()
     provider.setCustomParameters({ prompt: 'select_account' })
-    return signInWithPopup(auth, provider)
+    const result = await signInWithPopup(auth, provider)
+    await applyOAuthDisplayName(result)
+    return result
+  },
+  async sendPasswordResetEmail(email: string) {
+    const auth = requireAuth()
+    return sendPasswordResetEmail(auth, email)
   },
   async signOut() {
     const auth = requireAuth()
