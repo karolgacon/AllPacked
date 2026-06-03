@@ -35,8 +35,8 @@ export type TripWizardContextValue = {
 export const initialTripWizardState: TripWizardState = {
   destination: 'Kyoto, Japan',
   dates: {
-    startDate: '',
-    endDate: '',
+    startDate: '2024-04-12',
+    endDate: '2024-04-24',
   },
   transport: '',
   activities: {

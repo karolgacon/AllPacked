@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { formatTripPeriod, PackingListWeatherPanel } from '@/features/weather'
+import { packingListDemoTrip } from '@/shared/demo/packingListTrip'
 import { Button, EmptyState, ErrorState } from '@/shared/components/ui'
 
 type Item = { id: string; label: string; checked: boolean }
@@ -25,14 +27,6 @@ const initialCategories: Category[] = [
 ]
 
 // ── Icons ────────────────────────────────────────────────────────────────────
-
-function CloudIcon() {
-  return (
-    <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
-    </svg>
-  )
-}
 
 function DocumentIcon() {
   return (
@@ -110,6 +104,10 @@ export function PackingListsPage() {
     0,
   )
   const progress = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0
+  const tripPeriodLabel = formatTripPeriod(
+    packingListDemoTrip.startDate,
+    packingListDemoTrip.endDate,
+  )
 
   // ── Early return for error ────────────────────────────────────────────────
 
@@ -125,25 +123,16 @@ export function PackingListsPage() {
   // ── Main layout ────────────────────────────────────────────────────────────
 
   return (
-    <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1.8fr 1.2fr' }}>
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1.2fr)]">
 
       {/* ── Left column ── */}
       <div className="space-y-4">
 
-        {/* Weather */}
-        <div className="rounded-2xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
-          <div className="mb-3 flex items-center gap-2 text-[#999999]">
-            <CloudIcon />
-            <span className="text-sm font-semibold text-[#0F172A]">Weather: Tokyo</span>
-          </div>
-          <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs text-[#999999]">Today</span>
-            <span className="text-sm font-bold text-[#0F172A]">22°C / 14°C</span>
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-900">
-            Mostly Sunny – Pack Light Jackets
-          </p>
-        </div>
+        <PackingListWeatherPanel
+          destination={packingListDemoTrip.destination}
+          startDate={packingListDemoTrip.startDate}
+          endDate={packingListDemoTrip.endDate}
+        />
 
         {/* Quick Actions */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
@@ -178,8 +167,10 @@ export function PackingListsPage() {
         <div>
           <div className="mb-3 flex items-start justify-between">
             <div>
-              <h1 className="text-base font-bold text-[#0F172A]">Japan Spring Tour</h1>
-              <p className="mt-0.5 text-xs text-[#999999]">April 12 – April 24, 2024</p>
+              <h1 className="text-base font-bold text-[#0F172A]">
+                {packingListDemoTrip.name}
+              </h1>
+              <p className="mt-0.5 text-xs text-[#999999]">{tripPeriodLabel}</p>
             </div>
             <div className="text-right">
               <p className="text-xs text-[#999999]">Completion</p>

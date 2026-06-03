@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Card, Input } from '@/shared/components/ui'
 import { useTripWizard, WizardStepper } from '@/features/trip-wizard'
+import { DestinationWeatherCard, useDestinationWeather } from '@/features/weather'
 
 const quickDestinations = ['Paris', 'New York', 'Bali']
 
@@ -49,46 +49,6 @@ function TrendUp({ className }: IconProps) {
       />
     </svg>
   )
-}
-
-const weatherByDestination: Record<
-  string,
-  {
-    city: string
-    temperature: string
-    condition: string
-    note: string
-    imageClass: string
-  }
-> = {
-  Paris: {
-    city: 'Paris',
-    temperature: '16\u00b0C',
-    condition: 'Mild',
-    note: 'Pack layers and comfortable shoes.',
-    imageClass: 'from-sky-300 via-blue-500 to-slate-900',
-  },
-  'New York': {
-    city: 'New York',
-    temperature: '21\u00b0C',
-    condition: 'Clear',
-    note: 'Great weather for city walking.',
-    imageClass: 'from-cyan-300 via-indigo-500 to-slate-950',
-  },
-  Bali: {
-    city: 'Bali',
-    temperature: '29\u00b0C',
-    condition: 'Humid',
-    note: 'Bring light clothes and sunscreen.',
-    imageClass: 'from-emerald-300 via-teal-500 to-slate-900',
-  },
-  Kyoto: {
-    city: 'Kyoto',
-    temperature: '18\u00b0C',
-    condition: 'Partly Cloudy',
-    note: 'Perfect for walking.',
-    imageClass: 'from-orange-300 via-slate-700 to-slate-950',
-  },
 }
 
 const infoCards = [
@@ -157,26 +117,19 @@ function InfoIcon({ name, className }: { name: string; className?: string }) {
 export function NewTripDestinationPage() {
   const navigate = useNavigate()
   const { wizard, setDestination } = useTripWizard()
-
-  const weather = useMemo(() => {
-    const matchedDestination = Object.keys(weatherByDestination).find((city) =>
-      wizard.destination.toLowerCase().includes(city.toLowerCase()),
-    )
-
-    return weatherByDestination[matchedDestination ?? 'Kyoto']
-  }, [wizard.destination])
+  const { weather, loading, error } = useDestinationWeather(wizard.destination)
 
   const canContinue = wizard.destination.trim().length > 1
 
   return (
-    <div className="mx-auto flex w-full max-w-[896px] flex-col gap-8">
+    <div className="flex w-full flex-col gap-8">
       <WizardStepper activeStep="destination" />
 
-      <Card className="min-h-[400px] border-blue-100 p-10">
-        <div className="grid gap-8 lg:grid-cols-[360px_292px] lg:items-center lg:justify-between">
-          <div className="space-y-7">
+      <Card className="min-h-0 border-blue-100 p-5 sm:p-8 lg:min-h-[400px] lg:p-10">
+        <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,max-content)_1fr] xl:items-center">
+          <div className="w-full max-w-md space-y-7">
             <header>
-              <h1 className="text-3xl font-semibold text-slate-950">
+              <h1 className="text-2xl font-semibold text-slate-950 sm:text-3xl">
                 Where are you heading?
               </h1>
               <p className="mt-2 text-base text-slate-600">
@@ -210,7 +163,7 @@ export function NewTripDestinationPage() {
                   value={wizard.destination}
                   onChange={(event) => setDestination(event.target.value)}
                   placeholder="e.g. Kyoto, Japan"
-                  className="h-11 max-w-[292px] pl-12 text-sm"
+                  className="h-11 w-full max-w-md pl-12 text-sm"
                 />
               </div>
             </div>
@@ -244,18 +197,19 @@ export function NewTripDestinationPage() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center justify-between gap-3 pt-4">
               <button
                 type="button"
                 onClick={() => navigate('/dashboard')}
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-slate-950"
+                className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-slate-600 transition hover:text-slate-950"
               >
                 <ArrowLeft className="size-5" />
                 Cancel
               </button>
               <Button
                 type="button"
-                className="h-11 sm:w-[136px]"
+                fullWidth={false}
+                className="h-11 shrink-0 px-5"
                 disabled={!canContinue}
                 onClick={() => navigate('/new-trip/dates')}
               >
@@ -267,35 +221,17 @@ export function NewTripDestinationPage() {
             </div>
           </div>
 
-          <aside className="h-[264px] w-full overflow-hidden rounded-xl bg-slate-950 p-3 text-white shadow-sm lg:w-[292px]">
-            <div
-              className={`relative h-[154px] rounded-lg bg-gradient-to-br ${weather.imageClass}`}
-            >
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,.25)_0_1px,transparent_1px_34px)] opacity-40" />
-              <div className="absolute inset-x-8 bottom-8 h-16 rounded-t-lg border border-white/40 bg-black/20" />
-              <div className="absolute inset-x-12 bottom-12 h-20 rounded-t-md border border-white/40 bg-black/20" />
-            </div>
-
-            <div className="mt-4 space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
-                Current Weather
-              </p>
-              <p className="text-2xl font-semibold">
-                {weather.city}, {weather.temperature}
-              </p>
-              <p className="text-sm text-slate-300">
-                {weather.condition} - {weather.note}
-              </p>
-            </div>
-          </aside>
+          <div className="flex justify-center xl:pl-25 xl:pr-4">
+            <DestinationWeatherCard weather={weather} loading={loading} error={error} />
+          </div>
         </div>
       </Card>
 
-      <section className="grid gap-5 md:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
         {infoCards.map((card) => (
           <article
             key={card.title}
-            className="flex h-[90px] gap-4 rounded-lg bg-[#f3f7ff] p-5"
+            className="flex min-h-[90px] gap-4 rounded-lg bg-[#f3f7ff] p-5"
           >
             <span
               className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${card.iconClassName}`}
