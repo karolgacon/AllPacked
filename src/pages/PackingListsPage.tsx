@@ -1,13 +1,13 @@
 import { useState } from 'react'
+import { Button, EmptyState, ErrorState } from '@/shared/components/ui'
 
 type Item = { id: string; label: string; checked: boolean }
-type Category = { id: string; name: string; badge: string; items: Item[] }
+type Category = { id: string; name: string; items: Item[] }
 
 const initialCategories: Category[] = [
   {
     id: 'clothing',
     name: 'Clothing',
-    badge: '4/6 Items',
     items: [
       { id: 'c1', label: 'Linen Shirts (3)', checked: true },
       { id: 'c2', label: 'Light Jacket', checked: false },
@@ -17,13 +17,14 @@ const initialCategories: Category[] = [
   {
     id: 'tech',
     name: 'Tech & Gear',
-    badge: '1/3 Items',
     items: [
       { id: 't1', label: 'Universal Power Adapter', checked: false },
       { id: 't2', label: 'Noise Cancelling Headphones', checked: true },
     ],
   },
 ]
+
+// ── Icons ────────────────────────────────────────────────────────────────────
 
 function CloudIcon() {
   return (
@@ -66,7 +67,7 @@ function PlaneIcon() {
 
 function InfoIcon() {
   return (
-    <svg className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="12" cy="12" r="10" />
       <line x1="12" y1="8" x2="12" y2="12" />
       <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -82,8 +83,11 @@ function CheckIcon() {
   )
 }
 
+// ── Page ─────────────────────────────────────────────────────────────────────
+
 export function PackingListsPage() {
   const [categories, setCategories] = useState<Category[]>(initialCategories)
+  const [isError] = useState(false)
 
   function toggleItem(categoryId: string, itemId: string) {
     setCategories((prev) =>
@@ -100,13 +104,33 @@ export function PackingListsPage() {
     )
   }
 
+  const totalItems = categories.reduce((sum, cat) => sum + cat.items.length, 0)
+  const checkedItems = categories.reduce(
+    (sum, cat) => sum + cat.items.filter((i) => i.checked).length,
+    0,
+  )
+  const progress = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0
+
+  // ── Early return for error ────────────────────────────────────────────────
+
+  if (isError) {
+    return (
+      <ErrorState
+        message="Could not load the packing list. Please try again."
+        onRetry={() => window.location.reload()}
+      />
+    )
+  }
+
+  // ── Main layout ────────────────────────────────────────────────────────────
+
   return (
     <div className="grid gap-6" style={{ gridTemplateColumns: '1fr 1.8fr 1.2fr' }}>
 
       {/* ── Left column ── */}
       <div className="space-y-4">
 
-        {/* Weather card */}
+        {/* Weather */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-[#999999]">
             <CloudIcon />
@@ -121,7 +145,7 @@ export function PackingListsPage() {
           </p>
         </div>
 
-        {/* Quick Actions card */}
+        {/* Quick Actions */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Quick Actions
@@ -129,20 +153,18 @@ export function PackingListsPage() {
           <div className="space-y-3">
             <button
               type="button"
+
               className="flex w-full items-center gap-3 text-left text-sm text-[#0F172A] hover:text-blue-600"
             >
-              <span className="text-[#999999]">
-                <DocumentIcon />
-              </span>
+              <span className="text-[#999999]"><DocumentIcon /></span>
               Export to PDF
             </button>
             <button
               type="button"
+
               className="flex w-full items-center gap-3 text-left text-sm text-[#0F172A] hover:text-blue-600"
             >
-              <span className="text-[#999999]">
-                <ShareIcon />
-              </span>
+              <span className="text-[#999999]"><ShareIcon /></span>
               Share Trip
             </button>
           </div>
@@ -152,7 +174,7 @@ export function PackingListsPage() {
       {/* ── Middle column ── */}
       <div className="space-y-6">
 
-        {/* Trip header — no card, plain text */}
+        {/* Trip header — no card */}
         <div>
           <div className="mb-3 flex items-start justify-between">
             <div>
@@ -161,76 +183,96 @@ export function PackingListsPage() {
             </div>
             <div className="text-right">
               <p className="text-xs text-[#999999]">Completion</p>
-              <p className="text-2xl font-bold leading-tight text-blue-600">64%</p>
+              <p className="text-2xl font-bold leading-tight text-blue-600">{progress}%</p>
             </div>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[#E6E8F3]">
-            <div className="h-2 rounded-full bg-blue-600" style={{ width: '64%' }} />
+            <div
+              className="h-2 rounded-full bg-blue-600 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
-        {/* Categories — section header plain, each item its own card */}
-        {categories.map((cat) => (
-          <div key={cat.id}>
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-bold text-[#0F172A]">{cat.name}</h2>
-              <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-600">
-                {cat.badge}
-              </span>
-            </div>
-            <ul className="space-y-2">
-              {cat.items.map((item) => (
-                <li key={item.id}>
-                  <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={item.checked}
-                      onChange={() => toggleItem(cat.id, item.id)}
-                    />
-                    {item.checked ? (
-                      <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
-                        <CheckIcon />
-                      </div>
-                    ) : (
-                      <div className="h-5 w-5 flex-shrink-0 rounded-full border-2 border-slate-300 bg-white" />
-                    )}
-                    <span
-                      className={`text-sm ${
-                        item.checked ? 'text-[#999999] line-through' : 'text-[#0F172A]'
-                      }`}
-                    >
-                      {item.label}
+        {/* Empty state or category list */}
+        {totalItems === 0 ? (
+          <EmptyState
+            title="No packing lists yet"
+            description="Start by adding items to your packing list."
+            action={
+              <Button>
+                Create New List
+              </Button>
+            }
+          />
+        ) : (
+          <>
+            {categories.map((cat) => {
+              const catChecked = cat.items.filter((i) => i.checked).length
+              const catTotal = cat.items.length
+              return (
+                <div key={cat.id}>
+                  <div className="mb-3 flex items-center justify-between">
+                    <h2 className="text-sm font-bold text-[#0F172A]">{cat.name}</h2>
+                    <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-600">
+                      {catChecked}/{catTotal} Items
                     </span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+                  </div>
+                  <ul className="space-y-2">
+                    {cat.items.map((item) => (
+                      <li key={item.id}>
+                        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
+                          <input
+                            type="checkbox"
+                            className="sr-only"
+                            checked={item.checked}
+                            onChange={() => toggleItem(cat.id, item.id)}
+                          />
+                          {item.checked ? (
+                            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                              <CheckIcon />
+                            </div>
+                          ) : (
+                            <div className="h-5 w-5 flex-shrink-0 rounded-full border-2 border-slate-300 bg-white" />
+                          )}
+                          <span
+                            className={`text-sm ${
+                              item.checked ? 'text-[#999999] line-through' : 'text-[#0F172A]'
+                            }`}
+                          >
+                            {item.label}
+                          </span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            })}
 
-        {/* Add New Item */}
-        <button
-          type="button"
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#E6E8F3] py-3 text-sm text-[#999999] hover:border-blue-400 hover:text-blue-600"
-        >
-          <div className="flex h-5 w-5 items-center justify-center rounded-full border border-current text-xs font-bold leading-none">
-            +
-          </div>
-          Add New Item
-        </button>
+            {/* Add New Item */}
+            <button
+              type="button"
+
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-[#E6E8F3] py-3 text-sm text-[#999999] hover:border-blue-400 hover:text-blue-600"
+            >
+              <div className="flex h-5 w-5 items-center justify-center rounded-full border border-current text-xs font-bold leading-none">
+                +
+              </div>
+              Add New Item
+            </button>
+          </>
+        )}
       </div>
 
       {/* ── Right column ── */}
       <div className="space-y-4">
 
-        {/* Luggage Weight card */}
+        {/* Luggage Weight */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-4 shadow-sm">
           <div className="mb-3 flex items-center justify-between">
             <p className="text-sm font-semibold text-[#0F172A]">Luggage Weight</p>
-            <span className="text-[#999999]">
-              <PlaneIcon />
-            </span>
+            <span className="text-[#999999]"><PlaneIcon /></span>
           </div>
           <div className="mb-1 flex items-center justify-between">
             <span className="text-xs text-[#999999]">0kg</span>
@@ -240,7 +282,7 @@ export function PackingListsPage() {
             <div className="h-3 w-full rounded-full bg-gradient-to-r from-blue-500 to-red-500" />
           </div>
           <p className="mt-4 text-4xl font-bold text-red-500">24.2 kg</p>
-          <div className="mt-1 mb-4">
+          <div className="mb-4 mt-1">
             <span className="inline-flex items-center gap-1 rounded-md bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600">
               OVER LIMIT
             </span>
@@ -248,21 +290,17 @@ export function PackingListsPage() {
           <p className="mb-2 text-xs font-semibold text-[#0F172A]">Recommended adjustments:</p>
           <ul className="space-y-2">
             <li className="flex items-start gap-2 text-xs text-[#999999]">
-              <span className="text-[#999999]">
-                <InfoIcon />
-              </span>
+              <span className="text-[#999999]"><InfoIcon /></span>
               Move heavy electronics to carry-on
             </li>
             <li className="flex items-start gap-2 text-xs text-[#999999]">
-              <span className="text-[#999999]">
-                <InfoIcon />
-              </span>
+              <span className="text-[#999999]"><InfoIcon /></span>
               Consider wearing your heaviest shoes
             </li>
           </ul>
         </div>
 
-        {/* Next Destination card */}
+        {/* Next Destination */}
         <div className="overflow-hidden rounded-2xl border border-[#E6E8F3] shadow-sm">
           <div className="relative h-36">
             <img
