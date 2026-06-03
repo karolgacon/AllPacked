@@ -1,6 +1,10 @@
 import { useState } from 'react'
-import { formatTripPeriod, PackingListWeatherPanel } from '@/features/weather'
-import { packingListDemoTrip } from '@/shared/demo/packingListTrip'
+import { PackingListWeatherPanel } from '@/features/weather'
+import {
+  activeTrip,
+  activeTripPeriodLabel,
+  activeTripProgressPercent,
+} from '@/shared/demo/appDemoData'
 import { Button, EmptyState, ErrorState } from '@/shared/components/ui'
 
 type Item = { id: string; label: string; checked: boolean }
@@ -99,15 +103,8 @@ export function PackingListsPage() {
   }
 
   const totalItems = categories.reduce((sum, cat) => sum + cat.items.length, 0)
-  const checkedItems = categories.reduce(
-    (sum, cat) => sum + cat.items.filter((i) => i.checked).length,
-    0,
-  )
-  const progress = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0
-  const tripPeriodLabel = formatTripPeriod(
-    packingListDemoTrip.startDate,
-    packingListDemoTrip.endDate,
-  )
+  const progress = activeTripProgressPercent
+  const tripPeriodLabel = activeTripPeriodLabel
 
   // ── Early return for error ────────────────────────────────────────────────
 
@@ -129,9 +126,9 @@ export function PackingListsPage() {
       <div className="space-y-4">
 
         <PackingListWeatherPanel
-          destination={packingListDemoTrip.destination}
-          startDate={packingListDemoTrip.startDate}
-          endDate={packingListDemoTrip.endDate}
+          destination={activeTrip.destination}
+          startDate={activeTrip.startDate}
+          endDate={activeTrip.endDate}
         />
 
         {/* Quick Actions */}
@@ -167,13 +164,13 @@ export function PackingListsPage() {
         <div>
           <div className="mb-3 flex items-start justify-between">
             <div>
-              <h1 className="text-base font-bold text-[#0F172A]">
-                {packingListDemoTrip.name}
-              </h1>
+              <h1 className="text-base font-bold text-[#0F172A]">{activeTrip.name}</h1>
               <p className="mt-0.5 text-xs text-[#999999]">{tripPeriodLabel}</p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-[#999999]">Completion</p>
+              <p className="text-xs text-[#999999]">
+                {activeTrip.packed}/{activeTrip.total} items
+              </p>
               <p className="text-2xl font-bold leading-tight text-blue-600">{progress}%</p>
             </div>
           </div>
@@ -295,14 +292,15 @@ export function PackingListsPage() {
         <div className="overflow-hidden rounded-2xl border border-[#E6E8F3] shadow-sm">
           <div className="relative h-36">
             <img
-              src="https://picsum.photos/seed/kyoto/400/200"
-              alt="Kyoto District"
+              src={activeTrip.imageUrl}
+              alt={activeTrip.imageAlt}
               className="h-full w-full object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <div className="absolute bottom-3 left-3">
               <p className="text-xs text-white/80">Next Destination</p>
-              <p className="text-sm font-bold text-white">Kyoto District</p>
+              <p className="text-sm font-bold text-white">{activeTrip.nextDestinationLabel}</p>
             </div>
           </div>
         </div>

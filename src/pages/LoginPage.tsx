@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { FirebaseError } from 'firebase/app'
 import { useAuth } from '@/features/auth/useAuth'
+import { getAuthErrorMessage } from '@/features/auth/authErrors'
 import {
   AuthBrand,
   AuthDivider,
@@ -30,11 +30,7 @@ export function LoginPage() {
       await signIn(email, password)
       navigate('/dashboard')
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        setError(err.message)
-      } else {
-        setError('Unexpected error while signing in.')
-      }
+      setError(getAuthErrorMessage(err, 'Unexpected error while signing in.'))
     } finally {
       setPending(false)
     }
@@ -48,11 +44,7 @@ export function LoginPage() {
       await signInWithGoogle()
       navigate('/dashboard')
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        setError(err.message)
-      } else {
-        setError('Unexpected error while signing in with Google.')
-      }
+      setError(getAuthErrorMessage(err, 'Unexpected error while signing in with Google.'))
     } finally {
       setPending(false)
     }

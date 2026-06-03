@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { FirebaseError } from 'firebase/app'
 import { useAuth } from '@/features/auth/useAuth'
+import { getAuthErrorMessage } from '@/features/auth/authErrors'
 import { AuthBrand, AuthFieldLabel, AuthHeading } from '@/features/auth/components/AuthLayoutParts'
 import { MailIcon } from '@/shared/components/icons'
 import { Button, InputField } from '@/shared/components/ui'
@@ -23,11 +23,7 @@ export function ForgotPasswordPage() {
       await sendPasswordResetEmail(email)
       setMessage('Check your inbox for a reset link.')
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        setError(err.message)
-      } else {
-        setError('Could not send reset email.')
-      }
+      setError(getAuthErrorMessage(err, 'Could not send reset email.'))
     } finally {
       setPending(false)
     }

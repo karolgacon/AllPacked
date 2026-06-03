@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Card, Input } from '@/shared/components/ui'
 import { useTripWizard, WizardStepper } from '@/features/trip-wizard'
 import { DestinationWeatherCard, useDestinationWeather } from '@/features/weather'
-
-const quickDestinations = ['Paris', 'New York', 'Bali']
+import { newTripInfoCards, newTripQuickDestinations } from '@/shared/demo/appDemoData'
 
 type IconProps = {
   className?: string
@@ -50,27 +49,6 @@ function TrendUp({ className }: IconProps) {
     </svg>
   )
 }
-
-const infoCards = [
-  {
-    title: 'Recent',
-    text: 'Last trip to London was 3 months ago.',
-    icon: 'recent',
-    iconClassName: 'bg-[#dbeafe] text-blue-700',
-  },
-  {
-    title: 'Advice',
-    text: 'Japan requires a travel adapter (Type A/B).',
-    icon: 'advice',
-    iconClassName: 'bg-[#ffddc7] text-orange-700',
-  },
-  {
-    title: 'Inventory',
-    text: 'You have 24 essential items pre-saved.',
-    icon: 'inventory',
-    iconClassName: 'bg-[#dbeafe] text-blue-700',
-  },
-]
 
 function InfoIcon({ name, className }: { name: string; className?: string }) {
   if (name === 'advice') {
@@ -171,16 +149,15 @@ export function NewTripDestinationPage() {
             <div className="space-y-3">
               <p className="text-sm font-semibold text-blue-900">Quick Selection</p>
               <div className="flex flex-wrap gap-3">
-                {quickDestinations.map((city) => {
-                  const isSelected = wizard.destination
-                    .toLowerCase()
-                    .includes(city.toLowerCase())
+                {newTripQuickDestinations.map((option) => {
+                  const isSelected =
+                    wizard.destination.toLowerCase() === option.value.toLowerCase()
 
                   return (
                     <button
-                      key={city}
+                      key={option.label}
                       type="button"
-                      onClick={() => setDestination(city)}
+                      onClick={() => setDestination(option.value)}
                       className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                         isSelected
                           ? 'border-blue-600 bg-blue-50 text-blue-700'
@@ -189,7 +166,7 @@ export function NewTripDestinationPage() {
                     >
                       <span className="inline-flex items-center gap-1.5">
                         <TrendUp className="size-3.5" />
-                        {city}
+                        {option.label}
                       </span>
                     </button>
                   )
@@ -228,7 +205,7 @@ export function NewTripDestinationPage() {
       </Card>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
-        {infoCards.map((card) => (
+        {newTripInfoCards.map((card) => (
           <article
             key={card.title}
             className="flex min-h-[90px] gap-4 rounded-lg bg-[#f3f7ff] p-5"

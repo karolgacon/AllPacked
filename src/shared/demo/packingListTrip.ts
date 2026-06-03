@@ -1,10 +1,10 @@
-/**
- * Front-end demo trip for Packing Lists (no backend).
- * Historical dates so Open-Meteo archive returns stable weather for Kyoto.
- */
+import { activeTrip, activeTripPeriodLabel } from './appDemoData'
+
+/** @deprecated Use `activeTrip` from `appDemoData` — kept for imports. */
 export const packingListDemoTrip = {
-  name: 'Japan Spring Tour',
-  destination: 'Kyoto, Japan',
-  startDate: '2024-04-12',
-  endDate: '2024-04-24',
+  name: activeTrip.name,
+  destination: activeTrip.destination,
+  startDate: activeTrip.startDate,
+  endDate: activeTrip.endDate,
+  periodLabel: activeTripPeriodLabel,
 } as const

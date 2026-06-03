@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { demoStats, statsTopDestinations } from '@/shared/demo/appDemoData'
 
 type FilterPeriod = 'last12' | 'allTime' | 'custom'
 
@@ -13,11 +14,7 @@ const DONUT_CX = 60
 const DONUT_CY = 60
 const DONUT_SW = 14
 
-const TOP_DESTINATIONS = [
-  { name: 'Tokyo, Japan', visits: 4, tag: 'BUSINESS', green: true },
-  { name: 'London, UK', visits: 3, tag: 'LEISURE', green: false },
-  { name: 'Paris, France', visits: 2, tag: 'LEISURE', green: false },
-]
+const TOP_DESTINATIONS = statsTopDestinations
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -167,7 +164,7 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Total Trips
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">12</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.totalTrips}</p>
           <div className="mt-1 flex items-center gap-1 text-xs font-medium text-green-500">
             <TrendUpIcon />
             +20% vs last year
@@ -194,7 +191,9 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Total Items Packed
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">1,245</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">
+            {demoStats.itemsPacked.toLocaleString('en-US')}
+          </p>
           <p className="mt-1 text-xs text-[#999999]">Avg. 103 items/trip</p>
         </div>
 
@@ -206,9 +205,12 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Packing Efficiency
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">94%</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.packingEfficiency}%</p>
           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#E6E8F3]">
-            <div className="h-1.5 rounded-full bg-green-500" style={{ width: '94%' }} />
+            <div
+              className="h-1.5 rounded-full bg-green-500"
+              style={{ width: `${demoStats.packingEfficiency}%` }}
+            />
           </div>
         </div>
       </div>

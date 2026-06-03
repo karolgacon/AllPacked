@@ -1,4 +1,5 @@
 import { createContext } from 'react'
+import { activeTrip } from '@/shared/demo/appDemoData'
 
 export type DestinationOption = 'Paris' | 'New York' | 'Bali' | 'Kyoto'
 export type TransportOption = 'plane' | 'train' | 'car' | ''
@@ -33,10 +34,10 @@ export type TripWizardContextValue = {
 }
 
 export const initialTripWizardState: TripWizardState = {
-  destination: 'Kyoto, Japan',
+  destination: activeTrip.destination,
   dates: {
-    startDate: '2024-04-12',
-    endDate: '2024-04-24',
+    startDate: activeTrip.startDate,
+    endDate: activeTrip.endDate,
   },
   transport: '',
   activities: {
