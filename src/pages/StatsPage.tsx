@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { demoStats, statsTopDestinations } from '@/shared/demo/appDemoData'
 
 type FilterPeriod = 'last12' | 'allTime' | 'custom'
 
@@ -13,11 +14,7 @@ const DONUT_CX = 60
 const DONUT_CY = 60
 const DONUT_SW = 14
 
-const TOP_DESTINATIONS = [
-  { name: 'Tokyo, Japan', visits: 4, tag: 'BUSINESS', green: true },
-  { name: 'London, UK', visits: 3, tag: 'LEISURE', green: false },
-  { name: 'Paris, France', visits: 2, tag: 'LEISURE', green: false },
-]
+const TOP_DESTINATIONS = statsTopDestinations
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -130,14 +127,14 @@ export function StatsPage() {
     <div className="space-y-6">
 
       {/* ── Header + filter tabs ── */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-[#0F172A]">Travel Statistics</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold text-[#0F172A] sm:text-2xl">Travel Statistics</h1>
           <p className="mt-1 text-sm text-[#999999]">
             Analyze your journey patterns and packing performance.
           </p>
         </div>
-        <div className="flex items-center gap-1 rounded-xl border border-[#E6E8F3] bg-white p-1 text-sm shadow-sm">
+        <div className="flex w-full shrink-0 flex-wrap items-center gap-1 rounded-xl border border-[#E6E8F3] bg-white p-1 text-sm shadow-sm sm:w-auto">
           {(['last12', 'allTime', 'custom'] as FilterPeriod[]).map((id) => (
             <button
               key={id}
@@ -157,7 +154,7 @@ export function StatsPage() {
       </div>
 
       {/* ── KPI cards ── */}
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
 
         {/* Total Trips */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm">
@@ -167,7 +164,7 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Total Trips
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">12</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.totalTrips}</p>
           <div className="mt-1 flex items-center gap-1 text-xs font-medium text-green-500">
             <TrendUpIcon />
             +20% vs last year
@@ -194,7 +191,9 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Total Items Packed
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">1,245</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">
+            {demoStats.itemsPacked.toLocaleString('en-US')}
+          </p>
           <p className="mt-1 text-xs text-[#999999]">Avg. 103 items/trip</p>
         </div>
 
@@ -206,18 +205,21 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Packing Efficiency
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">94%</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.packingEfficiency}%</p>
           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#E6E8F3]">
-            <div className="h-1.5 rounded-full bg-green-500" style={{ width: '94%' }} />
+            <div
+              className="h-1.5 rounded-full bg-green-500"
+              style={{ width: `${demoStats.packingEfficiency}%` }}
+            />
           </div>
         </div>
       </div>
 
       {/* ── Charts row: Trips per Month (3/5) + Luggage donut (2/5) ── */}
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-5">
 
         {/* Trips per Month */}
-        <div className="col-span-3 flex flex-col rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm">
+        <div className="flex flex-col rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm xl:col-span-3">
           <div className="mb-4 flex shrink-0 items-center justify-between">
             <h2 className="text-base font-semibold text-[#0F172A]">Trips per Month</h2>
             <button type="button" className="text-[#999999] hover:text-[#0F172A]">
@@ -291,7 +293,7 @@ export function StatsPage() {
         </div>
 
         {/* Luggage donut */}
-        <div className="col-span-2 rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm xl:col-span-2">
           <div className="mb-2 flex items-center justify-between">
             <h2 className="text-base font-semibold text-[#0F172A]">Luggage</h2>
             <button type="button" className="text-[#999999] hover:text-[#0F172A]">
@@ -350,7 +352,7 @@ export function StatsPage() {
       </div>
 
       {/* ── Bottom row: Packing Habits + Top Destinations ── */}
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
 
         {/* Packing Habits */}
         <div className="rounded-2xl border border-[#E6E8F3] bg-white p-5 shadow-sm">

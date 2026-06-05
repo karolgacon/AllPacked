@@ -26,9 +26,9 @@ export function WizardStepper({ activeStep }: WizardStepperProps) {
   return (
     <nav
       aria-label="Trip wizard progress"
-      className="mx-auto flex h-[100px] w-full max-w-[896px] items-center"
+      className="flex min-h-[88px] w-full items-center overflow-x-auto pb-1 sm:min-h-[100px] sm:overflow-visible sm:pb-0"
     >
-      <ol className="grid w-full grid-cols-4 items-start">
+      <ol className="grid w-full min-w-[320px] grid-cols-4 items-start sm:min-w-0">
         {steps.map((step, index) => {
           const isActive = index === activeIndex
           const isComplete = index < activeIndex

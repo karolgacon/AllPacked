@@ -67,7 +67,7 @@ Do **not** use hardcoded Tailwind blues (`blue-600`, `blue-900`) or legacy Mater
 - Card radius: `16px` (`rounded-2xl`)
 - Input/button radius: `12px` (`rounded-xl`)
 - Auth card max width: `560px`
-- App main content max width: `max-w-6xl` (inside `AppShell`)
+- App main content max width: `1400px` via `PageContainer` (inside `AppShell`)
 - Sidebar width: `w-64`
 
 ### App shell (`src/shared/layout/AppShell.tsx`)

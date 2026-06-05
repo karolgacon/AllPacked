@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FirebaseError } from 'firebase/app'
 import { useAuth } from '@/features/auth/useAuth'
+import { getAuthErrorMessage } from '@/features/auth/authErrors'
 import {
   AuthBrand,
   AuthDivider,
@@ -51,11 +51,7 @@ export function RegisterPage() {
       await signUp(email, password, firstName.trim())
       navigate('/dashboard')
     } catch (err) {
-      if (err instanceof FirebaseError) {
-        setError(err.message)
-      } else {
-        setError('Unexpected error while registering.')
-      }
+      setError(getAuthErrorMessage(err, 'Unexpected error while registering.'))
     } finally {
       setPending(false)
     }
@@ -68,7 +64,7 @@ export function RegisterPage() {
       await signInWithGoogle()
       navigate('/dashboard')
     } catch (err) {
-      if (err instanceof FirebaseError) setError(err.message)
+      setError(getAuthErrorMessage(err, 'Unexpected error while signing in with Google.'))
     } finally {
       setPending(false)
     }
