@@ -43,7 +43,8 @@ export const activeTripProgressPercent = Math.round(
 export const newTripQuickDestinations = [
   { label: 'Kyoto', value: activeTrip.destination },
   { label: 'Paris', value: 'Paris, France' },
-  { label: 'New York', value: 'New York, USA' },
+  { label: 'Tokyo', value: 'Tokyo, Japan' },
+  { label: 'Warsaw', value: 'Warsaw, Poland' },
 ] as const
 
 export const newTripInfoCards = [

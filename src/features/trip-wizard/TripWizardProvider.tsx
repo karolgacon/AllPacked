@@ -48,6 +48,12 @@ export function TripWizardProvider({ children }: TripWizardProviderProps) {
           }
         })
       },
+      setActivities(selected) {
+        setWizard((current) => ({
+          ...current,
+          activities: { ...current.activities, selected },
+        }))
+      },
       setOverview(overview) {
         setWizard((current) => ({
           ...current,
