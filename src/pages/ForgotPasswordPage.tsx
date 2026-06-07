@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@/features/auth/useAuth'
 import { getAuthErrorMessage } from '@/features/auth/authErrors'
-import { AuthBrand, AuthFieldLabel, AuthHeading } from '@/features/auth/components/AuthLayoutParts'
+import { AuthBrand, AuthFieldLabel, AuthHeading } from '@/shared/components'
 import { MailIcon } from '@/shared/components/icons'
 import { Button, InputField } from '@/shared/components/ui'
 

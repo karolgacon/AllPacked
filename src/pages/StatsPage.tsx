@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { demoStats, statsTopDestinations } from '@/shared/demo/appDemoData'
+import { usePackingLists } from '@/features/packing-list'
 
 type FilterPeriod = 'last12' | 'allTime' | 'custom'
 
@@ -14,7 +14,11 @@ const DONUT_CX = 60
 const DONUT_CY = 60
 const DONUT_SW = 14
 
-const TOP_DESTINATIONS = statsTopDestinations
+const TOP_DESTINATIONS_FALLBACK = [
+  { name: 'Kyoto, Japan', visits: 4, tag: 'LEISURE' as const, green: true },
+  { name: 'Paris, France', visits: 2, tag: 'LEISURE' as const, green: false },
+  { name: 'London, UK', visits: 3, tag: 'BUSINESS' as const, green: false },
+]
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -116,6 +120,9 @@ function TrendUpIcon() {
 
 export function StatsPage() {
   const [filter, setFilter] = useState<FilterPeriod>('last12')
+  const { metrics } = usePackingLists()
+  const topDestinations =
+    metrics.topDestinations.length > 0 ? metrics.topDestinations : TOP_DESTINATIONS_FALLBACK
 
   const filterLabels: Record<FilterPeriod, string> = {
     last12: 'Last 12 Months',
@@ -164,7 +171,7 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Total Trips
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.totalTrips}</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{metrics.totalTrips}</p>
           <div className="mt-1 flex items-center gap-1 text-xs font-medium text-green-500">
             <TrendUpIcon />
             +20% vs last year
@@ -179,8 +186,8 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Countries Visited
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">8</p>
-          <p className="mt-1 text-xs text-[#999999]">3 New this year</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{metrics.countriesVisited}</p>
+          <p className="mt-1 text-xs text-[#999999]">{metrics.countriesNote}</p>
         </div>
 
         {/* Total Items Packed */}
@@ -192,9 +199,11 @@ export function StatsPage() {
             Total Items Packed
           </p>
           <p className="mt-1 text-3xl font-bold text-[#0F172A]">
-            {demoStats.itemsPacked.toLocaleString('en-US')}
+            {metrics.itemsPacked.toLocaleString('en-US')}
           </p>
-          <p className="mt-1 text-xs text-[#999999]">Avg. 103 items/trip</p>
+          <p className="mt-1 text-xs text-[#999999]">
+            Avg. {metrics.avgItemsPerTrip} items/trip
+          </p>
         </div>
 
         {/* Packing Efficiency */}
@@ -205,11 +214,11 @@ export function StatsPage() {
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-[#999999]">
             Packing Efficiency
           </p>
-          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{demoStats.packingEfficiency}%</p>
+          <p className="mt-1 text-3xl font-bold text-[#0F172A]">{metrics.packingEfficiency}%</p>
           <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#E6E8F3]">
             <div
               className="h-1.5 rounded-full bg-green-500"
-              style={{ width: `${demoStats.packingEfficiency}%` }}
+              style={{ width: `${metrics.packingEfficiency}%` }}
             />
           </div>
         </div>
@@ -362,10 +371,10 @@ export function StatsPage() {
           </div>
           <div className="mb-2 flex items-center justify-between">
             <span className="text-sm text-[#0F172A]">Weight Limit Compliance</span>
-            <span className="text-sm font-bold text-[#0F172A]">85%</span>
+            <span className="text-sm font-bold text-[#0F172A]">{metrics.weightLimitCompliance}%</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[#E6E8F3]">
-            <div className="h-2 rounded-full bg-blue-600" style={{ width: '85%' }} />
+            <div className="h-2 rounded-full bg-blue-600" style={{ width: `${metrics.weightLimitCompliance}%` }} />
           </div>
           <div className="mt-4 rounded-xl bg-blue-50 px-4 py-3">
             <p className="text-xs leading-relaxed text-blue-700">
@@ -387,7 +396,7 @@ export function StatsPage() {
             </button>
           </div>
           <ul className="space-y-4">
-            {TOP_DESTINATIONS.map((dest, i) => (
+            {topDestinations.map((dest, i) => (
               <li key={dest.name} className="flex items-center gap-3">
                 <span className="w-4 text-sm text-[#999999]">{i + 1}</span>
                 <span className="flex-1 text-sm font-medium text-[#0F172A]">{dest.name}</span>

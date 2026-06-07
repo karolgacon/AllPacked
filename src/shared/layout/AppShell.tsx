@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
     icon: NewTripIcon,
     matchPrefix: '/new-trip',
   },
-  { to: '/packing-lists', label: 'Packing Lists', icon: PackingListsIcon },
+  { to: '/packing-lists', label: 'Packing Lists', icon: PackingListsIcon, matchPrefix: '/packing-lists' },
   { to: '/stats', label: 'Stats', icon: StatsIcon },
 ]
 
@@ -176,14 +176,14 @@ export function AppShell() {
 
       <aside
         id="mobile-nav"
-        className={`fixed bottom-0 left-0 top-14 z-50 flex w-[min(100%,280px)] flex-col border-r border-brand-border bg-white px-4 py-4 shadow-xl transition-transform duration-200 ease-out lg:static lg:top-auto lg:z-auto lg:min-h-screen lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-b-0 lg:border-r lg:px-5 lg:py-6 lg:shadow-none ${
+        className={`fixed bottom-0 left-0 top-14 z-50 flex w-[min(100%,280px)] flex-col border-r border-brand-border bg-white px-4 py-4 shadow-xl transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:z-20 lg:h-screen lg:max-h-screen lg:w-64 lg:shrink-0 lg:self-start lg:translate-x-0 lg:overflow-hidden lg:border-b-0 lg:border-r lg:px-5 lg:py-6 lg:shadow-none ${
           menuOpen
             ? 'translate-x-0'
             : 'pointer-events-none -translate-x-full invisible lg:visible lg:pointer-events-auto'
         } lg:visible lg:flex`}
         aria-hidden={!menuOpen}
       >
-        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="flex h-full min-h-0 flex-1 flex-col">
           <div className="mb-6 hidden px-1 lg:block">
             <p className="text-xl font-bold tracking-tight text-slate-900">AllPacked</p>
             <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">
@@ -191,13 +191,13 @@ export function AppShell() {
             </p>
           </div>
 
-          <nav className="flex flex-1 flex-col gap-1">
+          <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
             {navItems.map((item) => (
               <SidebarNavItem key={item.to} item={item} onNavigate={closeMenu} />
             ))}
           </nav>
 
-          <div className="mt-6 flex flex-col gap-5 border-t border-brand-border pt-5 lg:mt-auto">
+          <div className="mt-4 flex shrink-0 flex-col gap-5 border-t border-brand-border pt-5 lg:mt-auto">
             <Button type="button" className="w-full" onClick={() => navigate('/new-trip/destination')}>
               New Trip
             </Button>

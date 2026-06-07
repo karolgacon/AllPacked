@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Card } from '@/shared/components/ui'
 
-type DashboardStatCardProps = {
+type StatCardProps = {
   label: string
   value: string
   note?: string
@@ -10,14 +10,14 @@ type DashboardStatCardProps = {
   footer?: ReactNode
 }
 
-export function DashboardStatCard({
+export function StatCard({
   label,
   value,
   note,
   noteClassName,
   icon,
   footer,
-}: DashboardStatCardProps) {
+}: StatCardProps) {
   return (
     <Card className="flex flex-col p-5">
       <div className="mb-4 flex items-start justify-between gap-3">

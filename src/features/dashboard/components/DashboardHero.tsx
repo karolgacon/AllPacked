@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import heroImage from '@/assets/hero.jpg'
-import { dashboardStats } from '@/shared/demo/dashboardMock'
 
 type DashboardHeroProps = {
   firstName: string
+  lastListEfficiency: number
 }
 
 function PlusCircleIcon({ className }: { className?: string }) {
@@ -22,7 +22,7 @@ function PlusCircleIcon({ className }: { className?: string }) {
   )
 }
 
-export function DashboardHero({ firstName }: DashboardHeroProps) {
+export function DashboardHero({ firstName, lastListEfficiency }: DashboardHeroProps) {
   return (
     <section className="relative min-h-[260px] overflow-hidden rounded-2xl bg-brand-primary sm:min-h-[280px]">
       <div className="absolute inset-y-0 right-0 left-[46%] z-0 overflow-hidden sm:left-[54%] lg:left-[56%]">
@@ -48,7 +48,7 @@ export function DashboardHero({ firstName }: DashboardHeroProps) {
             Where are you heading next?
           </h1>
           <p className="text-sm leading-relaxed text-white/90 sm:text-base">
-            Your last list was packed with {dashboardStats.lastListEfficiency}% efficiency.
+            Your last list was packed with {lastListEfficiency}% efficiency.
             Let&apos;s keep the streak going for your next adventure.
           </p>
           <Link

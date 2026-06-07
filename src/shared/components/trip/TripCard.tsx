@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { DashboardTrip } from '@/shared/demo/dashboardMock'
+import type { DemoTripCard } from '@/shared/demo/appDemoData'
 
 type TripCardProps = {
-  trip: DashboardTrip
+  trip: DemoTripCard
 }
 
 function CalendarIcon() {

@@ -8,7 +8,7 @@ import {
   AuthFieldLabel,
   AuthFooter,
   AuthHeading,
-} from '@/features/auth/components/AuthLayoutParts'
+} from '@/shared/components'
 import {
   EyeIcon,
   EyeOffIcon,

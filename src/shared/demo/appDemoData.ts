@@ -80,30 +80,78 @@ export type DemoTripCard = {
   imageAlt: string
 }
 
-export const dashboardRecentTrips: DemoTripCard[] = [
+export type PackingListTrip = {
+  id: string
+  name: string
+  destination: string
+  startDate: string
+  endDate: string
+  shortDateRange: string
+  packed: number
+  total: number
+  status: 'upcoming' | 'completed'
+  statusLabel: string
+  imageUrl: string
+  imageAlt: string
+  nextDestinationLabel: string
+  luggageWeightKg: number
+  luggageMaxKg: number
+}
+
+export const packingListTrips: PackingListTrip[] = [
   {
     id: activeTrip.id,
-    title: activeTrip.name,
-    dateRange: activeTripShortDateRange,
+    name: activeTrip.name,
+    destination: activeTrip.destination,
+    startDate: activeTrip.startDate,
+    endDate: activeTrip.endDate,
+    shortDateRange: activeTripShortDateRange,
     packed: activeTrip.packed,
     total: activeTrip.total,
     status: 'upcoming',
     statusLabel: activeTrip.statusLabel,
     imageUrl: activeTrip.imageUrl,
     imageAlt: activeTrip.imageAlt,
+    nextDestinationLabel: activeTrip.nextDestinationLabel,
+    luggageWeightKg: 24.2,
+    luggageMaxKg: 23,
   },
   {
     id: 'paris',
-    title: 'Paris Getaway',
-    dateRange: 'Sep 15 - Sep 20',
+    name: 'Paris Getaway',
+    destination: 'Paris, France',
+    startDate: '2024-09-15',
+    endDate: '2024-09-20',
+    shortDateRange: 'Sep 15 - Sep 20',
     packed: 28,
     total: 28,
     status: 'completed',
     statusLabel: 'Completed',
     imageUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=640&q=80',
     imageAlt: 'Paris, France',
+    nextDestinationLabel: 'Le Marais',
+    luggageWeightKg: 18.5,
+    luggageMaxKg: 23,
   },
 ]
+
+export function packingListTripToDashboardCard(trip: PackingListTrip): DemoTripCard {
+  return {
+    id: trip.id,
+    title: trip.name,
+    dateRange: trip.shortDateRange,
+    packed: trip.packed,
+    total: trip.total,
+    status: trip.status,
+    statusLabel: trip.statusLabel,
+    imageUrl: trip.imageUrl,
+    imageAlt: trip.imageAlt,
+  }
+}
+
+export const dashboardRecentTrips: DemoTripCard[] = packingListTrips.map(
+  packingListTripToDashboardCard,
+)
 
 export const statsTopDestinations = [
   { name: 'Kyoto, Japan', visits: 4, tag: 'LEISURE' as const, green: true },

@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Card } from '@/shared/components/ui'
+import { finalizeTripFromWizard } from '@/features/packing-list'
 import {
   useTripWizard,
   WizardNavigation,
@@ -73,7 +75,8 @@ const transportIcons: Record<Exclude<TransportOption, ''>, typeof PlaneIcon> = {
 }
 
 export function NewTripOverviewPage() {
-  const { wizard, setOverview } = useTripWizard()
+  const navigate = useNavigate()
+  const { wizard, setOverview, resetWizard } = useTripWizard()
   const { weather, loading, error } = useTripWeather(
     destinationQuery(wizard.destination),
     wizard.dates.startDate,
@@ -92,6 +95,23 @@ export function NewTripOverviewPage() {
   const readiness = wizard.overview.isFinalized ? 100 : 0
   const TransportIcon = wizard.transport ? transportIcons[wizard.transport] : PlaneIcon
   const heroImage = weather?.imageUrl ?? activeTrip.imageUrl
+
+  const handleFinalize = () => {
+    const trip = finalizeTripFromWizard(wizard, {
+      condition: weather?.condition,
+      note: weather?.note,
+      temperatureRange: weather?.temperatureRange,
+      imageUrl: weather?.imageUrl,
+    })
+
+    setOverview({ isFinalized: true })
+    resetWizard()
+    navigate(`/packing-lists/${trip.id}`)
+  }
+
+  const canFinalize = Boolean(
+    wizard.destination.trim() && wizard.dates.startDate && wizard.dates.endDate,
+  )
 
   return (
     <div className="flex w-full flex-col gap-7">
@@ -302,7 +322,8 @@ export function NewTripOverviewPage() {
               type="button"
               variant="secondary"
               className="mt-8 inline-flex h-11 items-center justify-center gap-2"
-              onClick={() => setOverview({ isFinalized: true })}
+              disabled={!canFinalize || wizard.overview.isFinalized}
+              onClick={handleFinalize}
             >
               {wizard.overview.isFinalized ? 'Trip Finalized' : 'Finalize Trip'}
               <CheckIcon className="size-4" />
@@ -321,7 +342,8 @@ export function NewTripOverviewPage() {
       <WizardNavigation
         backTo="/new-trip/activities"
         nextLabel="Finalize Trip"
-        onNext={() => setOverview({ isFinalized: true })}
+        disabled={!canFinalize}
+        onNext={handleFinalize}
       />
     </div>
   )

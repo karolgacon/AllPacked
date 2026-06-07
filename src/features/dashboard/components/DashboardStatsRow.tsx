@@ -1,5 +1,5 @@
-import { demoStats as dashboardStats } from '@/shared/demo/appDemoData'
-import { DashboardStatCard } from './DashboardStatCard'
+import type { LiveDemoMetrics } from '@/features/packing-list'
+import { StatCard } from '@/shared/components'
 
 function PlaneIcon() {
   return (
@@ -27,31 +27,31 @@ function BoltIcon() {
   )
 }
 
-export function DashboardStatsRow() {
+export function DashboardStatsRow({ metrics }: { metrics: LiveDemoMetrics }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <DashboardStatCard
+      <StatCard
         label="Total Trips"
-        value={String(dashboardStats.totalTrips)}
-        note={dashboardStats.totalTripsDelta}
+        value={String(metrics.totalTrips)}
+        note={metrics.totalTripsDelta}
         noteClassName="font-medium text-brand-success"
         icon={<PlaneIcon />}
       />
-      <DashboardStatCard
+      <StatCard
         label="Items Packed"
-        value={String(dashboardStats.itemsPacked)}
-        note={dashboardStats.itemsPackedNote}
+        value={String(metrics.itemsPacked)}
+        note={metrics.itemsPackedNote}
         icon={<BoxIcon />}
       />
-      <DashboardStatCard
+      <StatCard
         label="Packing Efficiency"
-        value={`${dashboardStats.packingEfficiency}%`}
+        value={`${metrics.packingEfficiency}%`}
         icon={<BoltIcon />}
         footer={
           <div className="h-2 overflow-hidden rounded-full bg-brand-bg">
             <div
               className="h-2 rounded-full bg-brand-primary"
-              style={{ width: `${dashboardStats.packingEfficiency}%` }}
+              style={{ width: `${metrics.packingEfficiency}%` }}
             />
           </div>
         }

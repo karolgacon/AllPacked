@@ -7,16 +7,18 @@ import {
   type TransportPreference,
 } from '@/features/profile/profilePreferences'
 import { useProfilePreferences } from '@/features/profile/useProfilePreferences'
-import { demoStats } from '@/shared/demo/appDemoData'
+import { usePackingLists } from '@/features/packing-list'
 import { Button, Card } from '@/shared/components/ui'
 
-const profileStats = [
-  { label: 'Total Trips', value: String(demoStats.totalTrips), icon: 'plane' },
-  { label: 'Countries', value: String(demoStats.countriesVisited), icon: 'globe' },
-  { label: 'Items Packed', value: String(demoStats.itemsPacked), icon: 'bag' },
-] as const
+function buildProfileStats(metrics: ReturnType<typeof usePackingLists>['metrics']) {
+  return [
+    { label: 'Total Trips', value: String(metrics.totalTrips), icon: 'plane' as const },
+    { label: 'Countries', value: String(metrics.countriesVisited), icon: 'globe' as const },
+    { label: 'Items Packed', value: String(metrics.itemsPacked), icon: 'bag' as const },
+  ]
+}
 
-function ProfileStatIcon({ type }: { type: (typeof profileStats)[number]['icon'] }) {
+function ProfileStatIcon({ type }: { type: 'plane' | 'globe' | 'bag' }) {
   if (type === 'plane') {
     return (
       <svg className="size-5 text-brand-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -110,14 +112,19 @@ export function ProfilePage() {
   const navigate = useNavigate()
   const { preferences, saved, updatePreferences, setTransport, setClimate, persistPreferences } =
     useProfilePreferences()
+  const { metrics } = usePackingLists()
   const [editing, setEditing] = useState(false)
   const [locationDraft, setLocationDraft] = useState(preferences.location)
+
+  const profileStats = buildProfileStats(metrics)
+  const suitcaseUsedKg = metrics.featuredTrip?.luggageWeightKg ?? preferences.suitcaseUsedKg
+  const suitcaseMaxKg = metrics.featuredTrip?.luggageMaxKg ?? preferences.suitcaseMaxKg
 
   const fullName = getUserFullName(user)
   const initial = fullName.charAt(0).toUpperCase()
   const suitcasePercent = Math.min(
     100,
-    Math.round((preferences.suitcaseUsedKg / preferences.suitcaseMaxKg) * 100),
+    Math.round((suitcaseUsedKg / suitcaseMaxKg) * 100),
   )
 
   const startEditing = () => {
@@ -270,7 +277,7 @@ export function ProfilePage() {
             <div className="flex items-center justify-between text-sm">
               <span className="font-semibold text-slate-800">{suitcasePercent}% Full</span>
               <span className="text-brand-text">
-                Used {preferences.suitcaseUsedKg}kg / {preferences.suitcaseMaxKg}kg
+                Used {suitcaseUsedKg}kg / {suitcaseMaxKg}kg
               </span>
             </div>
             <div className="h-2.5 overflow-hidden rounded-full bg-brand-bg">
