@@ -29,9 +29,9 @@ Mapping project checklist to current frontend skeleton state.
   - Current route views exported from `src/pages`
 
 - **Reusable components extracted**
-  - Status: **Partially covered**
-  - Shared architecture exists (`src/shared`, `src/features`)
-  - Remaining: complete extraction of final repeated UI blocks during implementation sprint
+  - Status: **Covered**
+  - Shared UI in `src/shared/components/` (ui, auth, trip, stats, icons)
+  - Barrel export: `src/shared/components/index.ts`
 
 - **Styling and visual consistency**
   - Status: **Partially covered**
@@ -51,8 +51,9 @@ Mapping project checklist to current frontend skeleton state.
   - Initialization + pageview tracking on route changes
 
 - **Deploy application**
-  - Status: **Pending**
-  - Must be completed by team before final submission
+  - Status: **Ready** (config in repo; deploy via Railway dashboard or CLI)
+  - Files: `Dockerfile`, `Caddyfile`, `railway.toml`
+  - Remaining: run deploy, set `VITE_*` variables, add public URL to README
 
 - **README + screenshots (app + GA + Hotjar)**
   - Status: **Pending**
