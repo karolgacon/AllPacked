@@ -8,7 +8,7 @@ type WizardStep = {
 }
 
 type WizardStepperProps = {
-  activeStep: 'destination' | 'dates' | 'transport' | 'activities'
+  activeStep: 'destination' | 'dates' | 'transport' | 'activities' | 'overview'
 }
 
 const steps: WizardStep[] = [
@@ -26,7 +26,7 @@ export function WizardStepper({ activeStep }: WizardStepperProps) {
   return (
     <nav
       aria-label="Trip wizard progress"
-      className="flex min-h-[88px] w-full items-center overflow-x-auto pb-1 sm:min-h-[100px] sm:overflow-visible sm:pb-0"
+      className="mx-auto flex min-h-[72px] w-full max-w-[866px] items-center overflow-x-auto pb-1 sm:min-h-[84px] sm:overflow-visible sm:pb-0"
     >
       <ol className="grid w-full min-w-[320px] grid-cols-4 items-start sm:min-w-0">
         {steps.map((step, index) => {
@@ -38,8 +38,8 @@ export function WizardStepper({ activeStep }: WizardStepperProps) {
             <li key={step.path} className="relative flex flex-col items-center">
               {index > 0 ? (
                 <span
-                  className={`absolute right-1/2 top-5 h-px w-full ${
-                    isComplete || isActive ? 'bg-blue-600' : 'bg-slate-300'
+                  className={`absolute right-1/2 top-5 h-0.5 w-full ${
+                    isComplete || isActive ? 'bg-brand-primary' : 'bg-slate-300'
                   }`}
                   aria-hidden="true"
                 />
@@ -53,9 +53,9 @@ export function WizardStepper({ activeStep }: WizardStepperProps) {
                 <span
                   className={`flex size-10 items-center justify-center rounded-full border transition ${
                     isActive
-                      ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
+                      ? 'border-brand-primary bg-brand-primary text-white shadow-sm'
                       : isComplete
-                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        ? 'border-brand-primary bg-brand-bg text-brand-primary'
                         : 'border-slate-300 bg-slate-200 text-slate-600'
                   }`}
                 >
@@ -63,7 +63,7 @@ export function WizardStepper({ activeStep }: WizardStepperProps) {
                 </span>
                 <span
                   className={`text-xs font-semibold ${
-                    isActive ? 'text-blue-700' : 'text-slate-600'
+                    isActive ? 'text-brand-primary' : 'text-slate-600'
                   }`}
                 >
                   {step.label}
