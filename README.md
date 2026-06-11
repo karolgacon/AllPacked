@@ -115,63 +115,63 @@ src/
 ### Login
 
 Formularz logowania z polem e-mail i hasłem, przyciskiem Google oraz linkami do rejestracji i resetu hasła.
-<img width="2552" height="1393" alt="image" src="https://github.com/user-attachments/assets/2248d5c6-90d6-42b1-8176-58372018ea56" />
+<img width="2559" height="1388" alt="image" src="https://github.com/user-attachments/assets/ec580f10-bc37-4b5c-a79f-2c0e1b90822e" />
 
 ---
 
 ### Rejestracja
 
 Formularz rejestracji z imieniem, e-mailiem, hasłem i potwierdzeniem hasła.
-<img width="2556" height="1387" alt="image" src="https://github.com/user-attachments/assets/10974237-67a0-4ad7-84dd-8da0012f2e1d" />
+<img width="2559" height="1398" alt="image" src="https://github.com/user-attachments/assets/0ccad905-1ad4-44fe-bea9-3a1fbac5fe65" />
 
 ---
 
 ### Dashboard
 
 Strona główna po zalogowaniu — baner z przyciskiem tworzenia listy, statystyki i karty ostatnich podróży.
-<img width="2559" height="1388" alt="image" src="https://github.com/user-attachments/assets/e69a3809-11f2-44a4-b606-70cf8d352243" />
+<img width="2539" height="1384" alt="image" src="https://github.com/user-attachments/assets/bb7fb112-024d-4330-8da9-563a810e735c" />
 
 ---
 
 ### Kreator podróży — wybór destynacji
 
 Pierwszy krok planowania podróży — pole na wpisanie miejsca i szybkie propozycje destynacji.
-<img width="2552" height="1388" alt="image" src="https://github.com/user-attachments/assets/3647cb37-2a64-45ab-a169-0534157f0848" />
+<img width="2551" height="1393" alt="image" src="https://github.com/user-attachments/assets/5da6f696-b724-4273-848b-8fd238769c23" />
 
 ---
 
 ### Kreator podróży — podsumowanie
 
 Podsumowanie wybranej podróży z datami, transportem, aktywnościami i przyciskiem **Finalize Trip**.
-<img width="2559" height="1391" alt="image" src="https://github.com/user-attachments/assets/3e5cf6b5-47b4-4364-a27b-84b0c5bb4285" />
+<img width="2559" height="1395" alt="image" src="https://github.com/user-attachments/assets/6b23df29-69e0-4407-aca0-44733d33ba58" />
 
 ---
 
 ### Listy pakowania
 
 Widok ze wszystkimi podróżami — karty z postępem pakowania i opcją rozpoczęcia nowego planu.
-<img width="2559" height="1391" alt="image" src="https://github.com/user-attachments/assets/0d04b7ad-9f72-48e3-b6bb-7dce4dba1ed5" />
+<img width="2555" height="1396" alt="image" src="https://github.com/user-attachments/assets/a2b85189-99d8-4a5b-9549-d4bb513a5190" />
 
 ---
 
 ### Szczegóły listy pakowania
 
 Lista rzeczy do spakowania w kategoriach, możliwość odhaczania pozycji, panel pogody i wagi bagażu.
-<img width="2559" height="1392" alt="image" src="https://github.com/user-attachments/assets/1c9f9e11-e700-4362-8e5c-f441a22106b5" />
+<img width="2537" height="1393" alt="image" src="https://github.com/user-attachments/assets/8bd99584-f2ad-4bf0-bc7b-4da26d5798a2" />
 
 ---
 
 ### Statystyki
 
 Ekran ze statystykami podróży — liczba wyjazdów, spakowane przedmioty, wykresy i top destynacje.
-<img width="2557" height="1384" alt="image" src="https://github.com/user-attachments/assets/3e17f567-cf1e-4d36-9afc-21d253479099" />
+<img width="2558" height="1395" alt="image" src="https://github.com/user-attachments/assets/0f5db34c-1215-492c-8fd0-415f6368103e" />
 
 ---
 
 ### Profil
 
 Profil użytkownika z danymi konta, preferencjami podróży i ustawieniami.
-<img width="2558" height="1394" alt="image" src="https://github.com/user-attachments/assets/dbe9f6b5-99a1-4940-8c6d-046188319633" />
+<img width="2557" height="1390" alt="image" src="https://github.com/user-attachments/assets/80f77d83-8177-40f0-b529-bfd7373caca7" />
 
 ---
 
@@ -195,7 +195,7 @@ Panel Hotjar z nagraniem sesji użytkownika korzystającego z aplikacji.
 ### Aplikacja na produkcji
 
 Działająca aplikacja pod adresem Railway — np. dashboard po zalogowaniu.
-<img width="2269" height="1397" alt="image" src="https://github.com/user-attachments/assets/69976914-e26d-465a-8bc5-a6886485a666" />
+<img width="2540" height="1533" alt="image" src="https://github.com/user-attachments/assets/a89ac0d0-b684-4a92-a36b-bdfab16f846c" />
 
 ---
 
